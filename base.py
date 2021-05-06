@@ -6,6 +6,7 @@ import CierreVec
 import Naturales
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         # crear la ventana y el font y css
         MainWindow.setObjectName("MainWindow")
@@ -343,43 +344,51 @@ class Ui_MainWindow(object):
         variables = get_elements.return_dict(Naturales)
         i = 0
         valores_iniciales = [6, 2, 4, 5, 0, 1, 1, 1.5]
-        labels_na = {}
-        entries_na = {}
+        self.labels_na = {}
+        self.entries_na = {}
         for v_iniciales, variable in zip(valores_iniciales, variables):
                 i += 1
-                labels_na[f'label_{i}'] = QtWidgets.QLabel(self.frame_naturales)
-                labels_na[f'label_{i}'].setGeometry(QtCore.QRect(20, 50 + i*50, 55, 16))
-                labels_na[f'label_{i}'].setObjectName(f'label_{i}')
-                labels_na[f'label_{i}'].setText(_translate("MainWindow", variable))
+                self.labels_na[f'label_{i}'] = QtWidgets.QLabel(self.frame_naturales)
+                self.labels_na[f'label_{i}'].setGeometry(QtCore.QRect(20, 50 + i*50, 55, 16))
+                self.labels_na[f'label_{i}'].setObjectName(f'label_{i}')
+                self.labels_na[f'label_{i}'].setText(_translate("MainWindow", variable))
 
-                entries_na[f'entry_{i}'] = QtWidgets.QDoubleSpinBox(self.frame_naturales)
-                entries_na[f'entry_{i}'].setGeometry(QtCore.QRect(140, 50 + i*50, 60, 25))
-                entries_na[f'entry_{i}'].setProperty("value", v_iniciales)
-                entries_na[f'entry_{i}'].setObjectName(f'entry_{i}')
+                self.entries_na[f'entry_{i}'] = QtWidgets.QDoubleSpinBox(self.frame_naturales)
+                self.entries_na[f'entry_{i}'].setGeometry(QtCore.QRect(140, 50 + i*50, 60, 25))
+                self.entries_na[f'entry_{i}'].setProperty("value", v_iniciales)
+                self.entries_na[f'entry_{i}'].setObjectName(f'entry_{i}')
         # entries_list = lambda: [i.value() for i in entries.values()] 
         # crea el boton de graficar en una tab
         self.graficarBtn_naturales = QtWidgets.QPushButton(self.tab_cnaturales)
         self.graficarBtn_naturales.setGeometry(QtCore.QRect(1700, 800, 121, 41))
         self.graficarBtn_naturales.setStyleSheet("")
         self.graficarBtn_naturales.setObjectName("graficarBtn_naturales")
-        self.graficarBtn_naturales.clicked.connect(lambda: plots_na['plots_naturales_0'].clear())
-        self.graficarBtn_naturales.clicked.connect(lambda: plots_na['plots_naturales_1'].clear())
-        self.graficarBtn_naturales.clicked.connect(lambda: plots_na['plots_naturales_2'].clear())
-        self.graficarBtn_naturales.clicked.connect(lambda: plots_na['plots_naturales_3'].clear())
-        self.graficarBtn_naturales.clicked.connect(lambda: Naturales.CoordenadasNaturales(plots_na[f'plots_naturales_0'], plots_na['plots_naturales_1'], plots_na['plots_naturales_2'], plots_na['plots_naturales_3'], app, *[i.value() for i in entries_na.values()] ).SolucionNatural())
+        self.graficarBtn_naturales.clicked.connect(lambda: self.plots_na['plots_naturales_0'].clear())
+        self.graficarBtn_naturales.clicked.connect(lambda: self.plots_na['plots_naturales_1'].clear())
+        self.graficarBtn_naturales.clicked.connect(lambda: self.plots_na['plots_naturales_2'].clear())
+        self.graficarBtn_naturales.clicked.connect(lambda: self.plots_na['plots_naturales_3'].clear())
+        self.graficarBtn_naturales.clicked.connect(lambda: Naturales.CoordenadasNaturales(self.plots_na['plots_naturales_0'], self.plots_na['plots_naturales_1'], self.plots_na['plots_naturales_2'], self.plots_na['plots_naturales_3'], app, *[i.value() for i in self.entries_na.values()]).SolucionNaturales())
         self.graficarBtn_naturales.setText(_translate("MainWindow", "Graficar"))
         
         # crea la grafica de simulacion
         lista_plots_na = [self.tab_simulacion_na, self.tab_posicion_na, self.tab_velocidad_na, self.tab_aceleracion_na]
-        plots_na = {}
+        self.plots_na = {}
         for i, plot in enumerate(lista_plots_na):
-            plots_na[f'plots_naturales_{i}'] = PlotWidget(plot, background='w')
-            plots_na[f'plots_naturales_{i}'].setGeometry(QtCore.QRect(60, 30, 1200, 700))
-            plots_na[f'plots_naturales_{i}'].setObjectName("graphicsView_simulacion")
-            plots_na[f'plots_naturales_{i}'].getAxis("left").setStyle(tickLength = 20)
-            plots_na[f'plots_naturales_{i}'].getAxis("bottom").setStyle(tickLength = 20)
-            plots_na[f'plots_naturales_{i}'].showGrid(x = True, y = True, alpha = 0.8)  
+            self.plots_na[f'plots_naturales_{i}'] = PlotWidget(plot, background='w')
+            self.plots_na[f'plots_naturales_{i}'].setGeometry(QtCore.QRect(60, 30, 1200, 700))
+            self.plots_na[f'plots_naturales_{i}'].setObjectName("graphicsView_simulacion")
+            self.plots_na[f'plots_naturales_{i}'].getAxis("left").setStyle(tickLength = 20)
+            self.plots_na[f'plots_naturales_{i}'].getAxis("bottom").setStyle(tickLength = 20)
+            self.plots_na[f'plots_naturales_{i}'].showGrid(x = True, y = True, alpha = 0.8)  
 
+    # def naturalThread(self):
+    #     self.worker_natural = Naturales.CoordenadasNaturales(4,5)
+    #     self.worker_natural.start()
+    #     self.worker_natural.finished.connect(lambda: print('El thread ya acabo'))
+    #     self.worker_natural.data.connect(self.onData)
+
+    # def onData(self, a):
+        # print(a)
 
 if __name__ == "__main__":
     import sys

@@ -3,7 +3,8 @@ import numpy as np
 import pyqtgraph as pg
 from sympy import symbols, evalf, diff, sin, cos, Matrix
 
-class  CoordenadasNaturales(QtCore.QThread):
+
+class  CoordenadasNaturales:
     def __init__(self,win1, win2, win3, win4, app, I1, I2, I3, I4, phi2inicial, omega2inicial, alpha2inicial, time_simul):
         win1.resize(1200, 700)
         win1.setWindowTitle('simulacion')
@@ -55,8 +56,7 @@ class  CoordenadasNaturales(QtCore.QThread):
         self.aceleracion_2 = []
         self.aceleracion_3 = []
 
-
-    def SolucionNatural(self):
+    def SolucionNaturales(self):
         cont = 0
         x=[.4, 1, 2.2, 2]
         step = 0.01
@@ -95,7 +95,6 @@ class  CoordenadasNaturales(QtCore.QThread):
             a_1 = [0, 0, 0, ((self.I2*self.alpha2inicial*sin(0.5*pow(self.alpha2inicial*i,2) + self.omega2inicial*i + self.phi2inicial)) + self.I2*pow((self.alpha2inicial*i+self.omega2inicial),2)*cos(0.5*pow((self.alpha2inicial*i),2) + self.omega2inicial*i + self.phi2inicial))]
             ai = np.dot(-np.linalg.inv(jacobianEval),((jacobina_point*vi)+np.reshape(a_1, (len(x), -1))))
             ti.append(float(i))
-
 
             self.barra1.setData([self.xA, xf[0][0]], [self.yA, xf[1][0]])
             self.barra2.setData([xf[0][0], xf[2][0]], [xf[1][0], xf[3][0]])
