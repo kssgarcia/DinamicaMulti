@@ -7,16 +7,16 @@ class  CierreVectorial:
 
     def SolucionVectorial(self, I1, I2, I3, I4, phi2inicial, omega2inicial, alpha2inicial, time_simul):
 
-        app = QtGui.QApplication([])
-        win = pg.GraphicsWindow(title="My plotting examples")
-        win.resize(1000,600)
-        win.setWindowTitle('Cierre Vectorial')
-        p1 = win.addPlot(title="plot1")
+        # app = QtGui.QApplication([])
+        # win = pg.GraphicsWindow(title="My plotting examples")
+        # win.resize(1000,600)
+        # win.setWindowTitle('Cierre Vectorial')
+        # p1 = win.addPlot(title="plot1")
 
-        self.barra1 = p1.plot(pen='y')
-        self.barra2 = p1.plot(pen='r')
-        self.barra3 = p1.plot(pen='y')
-        self.barra4 = p1.plot(pen='r')
+        # self.barra1 = p1.plot(pen='y')
+        # self.barra2 = p1.plot(pen='r')
+        # self.barra3 = p1.plot(pen='y')
+        # self.barra4 = p1.plot(pen='r')
 
         self.I1 = I1
         self.I2 = I2
@@ -62,10 +62,11 @@ class  CierreVectorial:
             cont += 1
             rest = 10
             while rest > 0.00001:
-                # phiEval = phi.subs(dict(x1=x[0][0], y1=x[1][0], phi1=x[2][0], x2=x[3][0], y2=x[4][0], phi2=x[5][0], x3=x[6][0], y3=x[7][0], phi3=x[8][0], x4=x[9][0], y4=x[10][0], phi4=x[11][0], t=i))
+                phi = phi.xreplace({x1:x[0][0], y1:x[1][0], phi1:x[2][0], x2:x[3][0], y2:x[4][0], phi2:x[5][0], x3:x[6][0], y3:x[7][0], phi3:x[8][0], x4:x[9][0], y4:x[10][0], phi4:x[11][0], t:i})
+                jacobian = jaco.xreplace({x1:x[0][0], y1:x[1][0], phi1:x[2][0], x2:x[3][0], y2:x[4][0], phi2:x[5][0], x3:x[6][0], y3:x[7][0], phi3:x[8][0], x4:x[9][0], y4:x[10][0], phi4:x[11][0], t:i})
                 # jacobian = jaco.subs(dict(x1=x[0][0], y1=x[1][0], phi1=x[2][0], x2=x[3][0], y2=x[4][0], phi2=x[5][0], x3=x[6][0], y3=x[7][0], phi3=x[8][0], x4=x[9][0], y4=x[10][0], phi4=x[11][0], t=i))
-                phiSys = np.array(phi.subs(dict(x1=x[0][0], y1=x[1][0], phi1=x[2][0], x2=x[3][0], y2=x[4][0], phi2=x[5][0], x3=x[6][0], y3=x[7][0], phi3=x[8][0], x4=x[9][0], y4=x[10][0], phi4=x[11][0], t=i))).astype(float)
-                jacobianEval = np.array(jaco.subs(dict(x1=x[0][0], y1=x[1][0], phi1=x[2][0], x2=x[3][0], y2=x[4][0], phi2=x[5][0], x3=x[6][0], y3=x[7][0], phi3=x[8][0], x4=x[9][0], y4=x[10][0], phi4=x[11][0], t=i))).astype(float)
+                phiSys = np.array(phi).astype(float)
+                jacobianEval = np.array(jacobian).astype(float)
                 xf = x - np.dot(np.linalg.solve(jacobianEval, np.identity(jacobianEval.shape[0])), phiSys)
                 x = xf
                 rest = np.linalg.norm(phiSys)
@@ -80,17 +81,17 @@ class  CierreVectorial:
 
             br1_x = float(self.I1*cos(xf[3][0]))
             br1_y = float(self.I1*sin(xf[3][0]))
-            self.barra1.setData([0, br1_x], [0, br1_y])
-            br2_x = float(br1_x+self.I3*cos(xf[6][0]))
-            br2_y = float(br1_y+self.I3*sin(xf[6][0]))
-            self.barra2.setData([br1_x, br2_x], [br1_y, br2_y])
-            br3_x = float(self.I1*cos(xf[9][0]))
-            br3_y = float(self.I1*sin(xf[9][0]))
-            self.barra3.setData([br2_x, br3_x], [br2_y, br3_y])
-            self.barra4.setData([br3_x, 0], [br3_y, 0])
-            if i >= time_simul:
-                break
-            app.processEvents()
+            # self.barra1.setData([0, br1_x], [0, br1_y])
+            # br2_x = float(br1_x+self.I3*cos(xf[6][0]))
+            # br2_y = float(br1_y+self.I3*sin(xf[6][0]))
+            # self.barra2.setData([br1_x, br2_x], [br1_y, br2_y])
+            # br3_x = float(self.I1*cos(xf[9][0]))
+            # br3_y = float(self.I1*sin(xf[9][0]))
+            # self.barra3.setData([br2_x, br3_x], [br2_y, br3_y])
+            # self.barra4.setData([br3_x, 0], [br3_y, 0])
+            # if i >= time_simul:
+            #     break
+            # app.processEvents()
         print(A)
 
 
