@@ -1,7 +1,7 @@
 from pyqtgraph.Qt import QtGui, QtCore, QtWidgets
 import numpy as np
 import pyqtgraph as pg
-from sympy import symbols, evalf, diff, sin, cos, Matrix
+from sympy import symbols, evalf, diff, sin, cos, Matrix, lambdify
 
 class  CierreVectorial:
 
@@ -71,30 +71,29 @@ class  CierreVectorial:
         jaco_point = np.array(self.derivateMatrix(jaco, q, None, 0))
         ti = []
         x = np.reshape(x, (len(x), -1))
+        phi = lambdify([phi_2, phi_3, phi_4, t], phi)
+        jaco = lambdify([phi_2, phi_3, phi_4, t], jaco)
+        jaco_point = lambdify([phi_2, phi_3, phi_4, w_2, w_3, w_4, t], jaco_point)
 
         for i in np.arange(0, self.time_simul, step):
             float(i)
             cont += 1
             rest = 10
             while rest > 0.00001:
-                phiEval = Matrix(phi).subs(dict(phi_2=x[0][0], phi_3=x[1][0], phi_4=x[2][0], t=i))
-                jacobian = Matrix(jaco).subs(dict(phi_2=x[0][0], phi_3=x[1][0], phi_4=x[2][0]))
-                phiSys = np.array(phiEval).astype(np.float64)
-                jacobianEval = np.array(jacobian).astype(np.float64)
-                xf = x - np.dot(np.linalg.inv(jacobianEval), phiSys)
+                phiSys = np.array(phi(x[0][0], x[1][0], x[2][0], i))
+                jacobianSys = np.array(jaco(x[0][0], x[1][0], x[2][0], i))
+                xf = x - np.dot(np.linalg.inv(jacobianSys), phiSys)
                 x = xf
                 rest = np.linalg.norm(phiSys)
 
             v_1 = [0, 0, -self.alpha2inicial*i-self.omega2inicial]
-            vi = np.dot(-np.linalg.inv(jacobianEval),
+            vi = np.dot(-np.linalg.inv(jacobianSys),
                         np.reshape(v_1, (len(x), -1)))
 
-            jacobina_point = Matrix(jaco_point).subs(dict(
-                phi_2=x[0][0], phi_3=x[1][0], phi_4=x[2][0], w_2=vi[0][0], w_3=vi[1][0], w_4=vi[2][0]))
+            jacobina_point = np.array(jaco_point(x[0][0], x[1][0], x[2][0], vi[0][0], vi[1][0], vi[2][0], i))
 
             a_1 = [0, 0, -self.alpha2inicial]
-            ai = np.dot(np.linalg.inv(jacobianEval),
-                        (-jacobina_point*vi-np.reshape(a_1, (len(x), -1))))
+            ai = np.dot(np.linalg.inv(jacobianSys),(np.dot(-jacobina_point,vi)-np.reshape(a_1, (len(x), -1))))
             ti.append(float(i))
 
             br1_x = float(self.r2*cos(xf[0][0]))
@@ -129,8 +128,6 @@ class  CierreVectorial:
             self.plot_aceleracion_2.setData(ti, self.aceleracion_2)
             self.plot_aceleracion_3.setData(ti, self.aceleracion_3)
         
-            if i >= self.time_simul:
-                break
             self.app.processEvents()
 
         

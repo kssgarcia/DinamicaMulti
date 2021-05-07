@@ -1,7 +1,7 @@
 from pyqtgraph.Qt import QtGui, QtCore, QtWidgets
 import numpy as np
 import pyqtgraph as pg
-from sympy import symbols, evalf, diff, sin, cos, Matrix
+from sympy import symbols, evalf, diff, sin, cos, Matrix, lambdify
 
 
 class  CoordenadasNaturales:
@@ -74,13 +74,17 @@ class  CoordenadasNaturales:
         ti = []
         x = np.reshape(x, (len(x), -1))
 
+        phi = lambdify([x1, y1, x2, y2, t], phi)
+        jaco = lambdify([x1, y1, x2, y2, t], jaco)
+        jaco_point = lambdify([x1, y1, x2, y2, t], jaco_point)
+
         for i in np.arange(0, self.time_simul, step):
             float(i)
             cont += 1
             rest = 10
             while rest > 0.00001:
-                phiEval = Matrix(phi).subs(dict(x1=x[0][0], y1=x[1][0], x2=x[2][0], y2=x[3][0], t=i))
-                jacobian = Matrix(jaco).subs(dict(x1=x[0][0], y1=x[1][0], x2=x[2][0], y2=x[3][0], t=i))
+                phiEval = np.array(phi(x[0][0], x[1][0], x[2][0], x[3][0], i))
+                jacobian = np.array(jaco(x[0][0], x[1][0], x[2][0], x[3][0], i))
                 phiSys = np.array(phiEval).astype(np.float64)
                 jacobianEval = np.array(jacobian).astype(np.float64)
                 xf = x - np.dot(np.linalg.inv(jacobianEval), phiSys)
@@ -90,10 +94,10 @@ class  CoordenadasNaturales:
             v_1 = [0, 0, 0, self.I2*(self.alpha2inicial*i+self.omega2inicial)*sin(0.5*pow(self.alpha2inicial*i,2) + self.omega2inicial*i + self.phi2inicial)]
             vi = np.dot(-np.linalg.inv(jacobianEval), np.reshape(v_1, (len(x), -1)))
 
-            #.subs(dict(x1=x[0][0], x2=x[1][0], x3=x[2][0], x4=x[3][0], w_2=vi[0][0], w_3=vi[1][0], w_4=vi[2][0]))
-            jacobina_point = Matrix(jaco_point)
+            jacobina_point = np.array(jaco(x[0][0], x[1][0], x[2][0], x[3][0], i))
+
             a_1 = [0, 0, 0, ((self.I2*self.alpha2inicial*sin(0.5*pow(self.alpha2inicial*i,2) + self.omega2inicial*i + self.phi2inicial)) + self.I2*pow((self.alpha2inicial*i+self.omega2inicial),2)*cos(0.5*pow((self.alpha2inicial*i),2) + self.omega2inicial*i + self.phi2inicial))]
-            ai = np.dot(-np.linalg.inv(jacobianEval),((jacobina_point*vi)+np.reshape(a_1, (len(x), -1))))
+            ai = np.dot(-np.linalg.inv(jacobianEval),(np.dot(-jacobina_point,vi)+np.reshape(a_1, (len(x), -1))))
             ti.append(float(i))
 
             self.barra1.setData([self.xA, xf[0][0]], [self.yA, xf[1][0]])
