@@ -73,7 +73,7 @@ class  CierreVectorial:
             v_1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -self.alpha2inicial*i-self.omega2inicial]
             vi = np.dot(-np.linalg.solve(jacobianEval, np.identity(jacobianEval.shape[0])), np.reshape(v_1, (len(x), -1)))
             V.append(vi)
-            jacobina_point = Matrix(jaco_point)
+            jacobina_point = Matrix(jaco_point).subs(dict(x1=x[0][0], y1=x[1][0], phi1=x[2][0], x2=x[3][0], y2=x[4][0], phi2=x[5][0], x3=x[6][0], y3=x[7][0], phi3=x[8][0], x4=x[9][0], y4=x[10][0], phi4=x[11][0], t=i))
             a_1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -self.alpha2inicial]
             ai = np.dot(np.linalg.solve(jacobianEval, np.identity(jacobianEval.shape[0])),(-jacobina_point*vi-np.reshape(a_1, (len(x), -1))))
             A.append(ai)
