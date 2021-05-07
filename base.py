@@ -164,9 +164,11 @@ class Ui_MainWindow(object):
         #crea el layout de los tabs generales
         self.layout_naturales()
         self.layout_vectorial()
+        self.layout_cuerpo()
         # crea todos los componentes de la venta de cierre vectorial
         self.CreateVectorial()
         self.CreateNaturales()
+        self.CreateCuerpo()
         # crea los textos de los tabs generales y configura los textos de la ventana principal
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
@@ -444,7 +446,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         variables = get_elements.return_dict(CoorCuerpo)
         i = 0
-        valores_iniciales = [6, 2, 4, 5, 0, 1, 1, 1.5]
+        valores_iniciales = [6, 2, 4, 5, 0, 1, 1, 2.5]
         self.labels_cu = {}
         self.entries_cu = {}
         for v_iniciales, variable in zip(valores_iniciales, variables):
