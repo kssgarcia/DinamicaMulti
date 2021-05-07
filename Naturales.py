@@ -16,6 +16,7 @@ class  CoordenadasNaturales:
         self.barra1.setBrush([11, 12])
         win1.setXRange(-2.5, 10, padding=0)
         win1.setYRange(-2.5, 10, padding=0)
+        #entradas
         self.I1 = I1
         self.I2 = I2
         self.I3 = I3
@@ -61,8 +62,6 @@ class  CoordenadasNaturales:
         x=[.4, 1, 2.2, 2]
         step = 0.01
         x1, y1, x2, y2, t = symbols('x1 y1 x2 y2 t')
-        w_2, w_3, w_4 = symbols('w_2 w_3 w_4')
-        self.w = np.array([[w_2], [w_3], [w_4]])
         q = np.array([[x1], [y1], [x2], [y2]])
 
         phi = [[ pow((x1-self.xA),2) + pow((y1-self.yA),2) - pow(self.I2,2)],

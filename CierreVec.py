@@ -16,6 +16,7 @@ class  CierreVectorial:
         self.barra1.setBrush([11, 12])
         win1.setXRange(-2.5, 10, padding=0)
         win1.setYRange(-2.5, 10, padding=0)
+        #entradas
         self.r1 = r1
         self.r2 = r2
         self.r3 = r3

@@ -4,6 +4,7 @@ import pyqtgraph as pg
 import get_elements
 import CierreVec
 import Naturales
+import CoorCuerpo
 
 class Ui_MainWindow(object):
 
@@ -187,6 +188,10 @@ class Ui_MainWindow(object):
         self.tabWidget_naturales.setTabText(self.tabWidget_naturales.indexOf(self.tab_posicion_na), _translate("MainWindow", "Posición "))
         self.tabWidget_naturales.setTabText(self.tabWidget_naturales.indexOf(self.tab_velocidad_na), _translate("MainWindow", "Velocidad"))
         self.tabWidget_naturales.setTabText(self.tabWidget_naturales.indexOf(self.tab_aceleracion_na), _translate("MainWindow", "Aceleración "))
+        self.tabWidget_cuerpo.setTabText(self.tabWidget_cuerpo.indexOf(self.tab_simulacion_cu), _translate("MainWindow", " Simulación"))
+        self.tabWidget_cuerpo.setTabText(self.tabWidget_cuerpo.indexOf(self.tab_posicion_cu), _translate("MainWindow", "Posición "))
+        self.tabWidget_cuerpo.setTabText(self.tabWidget_cuerpo.indexOf(self.tab_velocidad_cu), _translate("MainWindow", "Velocidad"))
+        self.tabWidget_cuerpo.setTabText(self.tabWidget_cuerpo.indexOf(self.tab_aceleracion_cu), _translate("MainWindow", "Aceleración "))
 
     def CreateVectorial(self):
         _translate = QtCore.QCoreApplication.translate
@@ -381,14 +386,101 @@ class Ui_MainWindow(object):
             self.plots_na[f'plots_naturales_{i}'].getAxis("bottom").setStyle(tickLength = 20)
             self.plots_na[f'plots_naturales_{i}'].showGrid(x = True, y = True, alpha = 0.8)  
 
-    # def naturalThread(self):
-    #     self.worker_natural = Naturales.CoordenadasNaturales(4,5)
-    #     self.worker_natural.start()
-    #     self.worker_natural.finished.connect(lambda: print('El thread ya acabo'))
-    #     self.worker_natural.data.connect(self.onData)
+    def layout_cuerpo(self):
+        # crea el tab de graficas
+        self.tabWidget_cuerpo = QtWidgets.QTabWidget(self.tab_ccuerpo)
+        self.tabWidget_cuerpo.setGeometry(QtCore.QRect(270, 10, 1900, 900))
+        self.tabWidget_cuerpo.setObjectName("tabWidget_cuerpo")
+        # crea el tab de la simulacion
+        self.tab_simulacion_cu = QtWidgets.QWidget()
+        self.tab_simulacion_cu.setObjectName("tab_simulacion_cu")
+        self.tabWidget_cuerpo.addTab(self.tab_simulacion_cu, "")
+        # crea la tab de posicion
+        self.tab_posicion_cu = QtWidgets.QWidget()
+        self.tab_posicion_cu.setObjectName("tab_posicion_cu")
+        self.tabWidget_cuerpo.addTab(self.tab_posicion_cu, "")
+        # crea la tab de velocidad
+        self.tab_velocidad_cu = QtWidgets.QWidget()
+        self.tab_velocidad_cu.setObjectName("tab_velocidad_cu")
+        self.tabWidget_cuerpo.addTab(self.tab_velocidad_cu, "")
+        # crea la tab de acelaracion
+        self.tab_aceleracion_cu = QtWidgets.QWidget()
+        self.tab_aceleracion_cu.setObjectName("tab_aceleracion_cu")
+        self.tabWidget_cuerpo.addTab(self.tab_aceleracion_cu, "")
+        # crea el frame de los botones y los labels
+        self.frame_cuerpo = QtWidgets.QFrame(self.tab_ccuerpo)
+        self.frame_cuerpo.setGeometry(QtCore.QRect(20, 50, 221, 631))
+        self.frame_cuerpo.setStyleSheet("QFrame {\n"
+                                "background: rgb(43, 63, 85);\n"
+                                "border: none;\n"
+                                "border-radius: 20px;\n"
+                                "}\n"
+                                "\n"
+                                "QDoubleSpinBox\n"
+                                "{\n"
+                                "border : none;\n"
+                                "background : rgb(156, 29, 231);\n"
+                                "font-size: 20px;\n"
+                                "border-radius: 7px;\n"
+                                "}\n"
+                                "\n"
+                                "QDoubleSpinBox::hover {\n"
+                                "background: rgb(88, 27, 152);\n"
+                                "}\n"
+                                "\n"
+                                "QLabel {\n"
+                                "border: none;\n"
+                                "border-radius: 5px;\n"
+                                "color: white;\n"
+                                "font-size: 15px;\n"
+                                "}\n"
+                                "")
+        self.frame_cuerpo.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_cuerpo.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_cuerpo.setObjectName("frame_cuerpo")
+        self.tabWidget.addTab(self.tab_ccuerpo, "")
 
-    # def onData(self, a):
-        # print(a)
+    def CreateCuerpo(self):
+        _translate = QtCore.QCoreApplication.translate
+        variables = get_elements.return_dict(CoorCuerpo)
+        i = 0
+        valores_iniciales = [6, 2, 4, 5, 0, 1, 1, 1.5]
+        self.labels_cu = {}
+        self.entries_cu = {}
+        for v_iniciales, variable in zip(valores_iniciales, variables):
+                i += 1
+                self.labels_cu[f'label_{i}'] = QtWidgets.QLabel(self.frame_cuerpo)
+                self.labels_cu[f'label_{i}'].setGeometry(QtCore.QRect(20, 50 + i*50, 55, 16))
+                self.labels_cu[f'label_{i}'].setObjectName(f'label_{i}')
+                self.labels_cu[f'label_{i}'].setText(_translate("MainWindow", variable))
+
+                self.entries_cu[f'entry_{i}'] = QtWidgets.QDoubleSpinBox(self.frame_cuerpo)
+                self.entries_cu[f'entry_{i}'].setGeometry(QtCore.QRect(140, 50 + i*50, 60, 25))
+                self.entries_cu[f'entry_{i}'].setProperty("value", v_iniciales)
+                self.entries_cu[f'entry_{i}'].setObjectName(f'entry_{i}')
+        # entries_list = lambda: [i.value() for i in entries.values()] 
+        # crea el boton de graficar en una tab
+        self.graficarBtn_cuerpo = QtWidgets.QPushButton(self.tab_ccuerpo)
+        self.graficarBtn_cuerpo.setGeometry(QtCore.QRect(1700, 800, 121, 41))
+        self.graficarBtn_cuerpo.setStyleSheet("")
+        self.graficarBtn_cuerpo.setObjectName("graficarBtn_cuerpo")
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_0'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_1'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_2'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_3'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: CoorCuerpo.CoordenadasCuerpo(self.plots_cu['plots_cuerpo_0'], self.plots_cu['plots_cuerpo_1'], self.plots_cu['plots_cuerpo_2'], self.plots_cu['plots_cuerpo_3'], app, *[i.value() for i in self.entries_cu.values()]).SolucionCuerpo())
+        self.graficarBtn_cuerpo.setText(_translate("MainWindow", "Graficar"))
+        
+        # crea la grafica de simulacion
+        lista_plots_cu = [self.tab_simulacion_cu, self.tab_posicion_cu, self.tab_velocidad_cu, self.tab_aceleracion_cu]
+        self.plots_cu = {}
+        for i, plot in enumerate(lista_plots_cu):
+            self.plots_cu[f'plots_cuerpo_{i}'] = PlotWidget(plot, background='w')
+            self.plots_cu[f'plots_cuerpo_{i}'].setGeometry(QtCore.QRect(60, 30, 1200, 700))
+            self.plots_cu[f'plots_cuerpo_{i}'].setObjectName("graphicsView_simulacion")
+            self.plots_cu[f'plots_cuerpo_{i}'].getAxis("left").setStyle(tickLength = 20)
+            self.plots_cu[f'plots_cuerpo_{i}'].getAxis("bottom").setStyle(tickLength = 20)
+            self.plots_cu[f'plots_cuerpo_{i}'].showGrid(x = True, y = True, alpha = 0.8)  
 
 if __name__ == "__main__":
     import sys
