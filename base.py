@@ -350,7 +350,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         variables = get_elements.return_dict(Naturales)
         i = 0
-        valores_iniciales = [6, 2, 4, 5, 0, 1, 1, 1.5]
+        valores_iniciales = [6, 2, 4, 5, 0.1745, 0, 1, 1, 1.5]
         self.labels_na = {}
         self.entries_na = {}
         for v_iniciales, variable in zip(valores_iniciales, variables):

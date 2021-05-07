@@ -85,8 +85,8 @@ class  CoordenadasCuerpo:
             cont += 1
             rest = 10
             while rest > 0.00001:
-                phiEval = np.array(phi(x[0][0], x[1][0], x[2][0], x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
-                jacobian = np.array(jaco(x[0][0], x[1][0], x[2][0], x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
+                phiEval = np.array(phi(x[0][0], x[1][0], 0, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
+                jacobian = np.array(jaco(x[0][0], x[1][0], 0, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
                 xf = x - np.dot(np.linalg.solve(jacobian, np.identity(jacobian.shape[0])), phiEval)
                 x = xf
                 rest = np.linalg.norm(phiEval)
@@ -99,16 +99,18 @@ class  CoordenadasCuerpo:
             ai = np.dot(np.linalg.solve(jacobian, np.identity(jacobian.shape[0])),(np.dot(-jacobina_point,vi)-np.reshape(a_1, (len(x), -1))))
             ti.append(float(i))
 
-            br1_x = float(self.I1*cos(xf[3][0]))
-            br1_y = float(self.I1*sin(xf[3][0]))
+            br1_x = float(self.I2*cos(xf[5][0]))
+            br1_y = float(self.I2*sin(xf[5][0]))
             self.barra1.setData([0, br1_x], [0, br1_y])
-            br2_x = float(br1_x+self.I3*cos(xf[6][0]))
-            br2_y = float(br1_y+self.I3*sin(xf[6][0]))
+            br2_x = float(br1_x+self.I3*cos(xf[8][0]))
+            br2_y = float(br1_y+self.I3*sin(xf[8][0]))
             self.barra2.setData([br1_x, br2_x], [br1_y, br2_y])
-            br3_x = float(self.I1*cos(xf[9][0]))
-            br3_y = float(self.I1*sin(xf[9][0]))
-            self.barra3.setData([br2_x, br3_x], [br2_y, br3_y])
-            self.barra4.setData([br3_x, 0], [br3_y, 0])
+            # br3_x = float(self.I4*cos(xf[11][0]))
+            # br3_y = float(self.I4*sin(xf[11][0]))
+            br4_x = float(self.I1*cos(xf[2][0]))
+            br4_y = float(self.I1*sin(xf[2][0]))
+            self.barra3.setData([br2_x, br4_x], [br2_y, br4_y])
+            self.barra4.setData([br4_x, 0], [br4_y, 0])
             # # graficar la posicion
             # self.posiciones_1.append(xf[0][0])
             # self.posiciones_2.append(xf[1][0])
