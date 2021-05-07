@@ -100,7 +100,6 @@ class  CoordenadasNaturales:
 
             a_1 = [0, 0, 0, 0, 0, 0, 0, ((self.I2*self.alpha2inicial*sin(0.5*pow(self.alpha2inicial*i,2) + self.omega2inicial*i + self.phi2inicial)) + self.I2*pow((self.alpha2inicial*i+self.omega2inicial),2)*cos(0.5*pow((self.alpha2inicial*i),2) + self.omega2inicial*i + self.phi2inicial))]
             ai = np.dot(-np.linalg.inv(jacobianEval),(np.dot(-jacobina_point,vi)+np.reshape(a_1, (len(x), -1))))
-            print(ai)
             ti.append(float(i))
 
             self.barra1.setData([self.xA, xf[2][0]], [self.yA, xf[3][0]])
