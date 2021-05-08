@@ -186,14 +186,17 @@ class Ui_MainWindow(object):
         self.tabWidget_vectorial.setTabText(self.tabWidget_vectorial.indexOf(self.tab_posicion), _translate("MainWindow", "Posición "))
         self.tabWidget_vectorial.setTabText(self.tabWidget_vectorial.indexOf(self.tab_velocidad), _translate("MainWindow", "Velocidad"))
         self.tabWidget_vectorial.setTabText(self.tabWidget_vectorial.indexOf(self.tab_aceleracion), _translate("MainWindow", "Aceleración "))
+        self.tabWidget_vectorial.setTabText(self.tabWidget_vectorial.indexOf(self.tab_fuerza), _translate("MainWindow", "Fuerza "))
         self.tabWidget_naturales.setTabText(self.tabWidget_naturales.indexOf(self.tab_simulacion_na), _translate("MainWindow", " Simulación"))
         self.tabWidget_naturales.setTabText(self.tabWidget_naturales.indexOf(self.tab_posicion_na), _translate("MainWindow", "Posición "))
         self.tabWidget_naturales.setTabText(self.tabWidget_naturales.indexOf(self.tab_velocidad_na), _translate("MainWindow", "Velocidad"))
         self.tabWidget_naturales.setTabText(self.tabWidget_naturales.indexOf(self.tab_aceleracion_na), _translate("MainWindow", "Aceleración "))
+        self.tabWidget_naturales.setTabText(self.tabWidget_naturales.indexOf(self.tab_fuerza_na), _translate("MainWindow", "Fuerza "))
         self.tabWidget_cuerpo.setTabText(self.tabWidget_cuerpo.indexOf(self.tab_simulacion_cu), _translate("MainWindow", " Simulación"))
         self.tabWidget_cuerpo.setTabText(self.tabWidget_cuerpo.indexOf(self.tab_posicion_cu), _translate("MainWindow", "Posición "))
         self.tabWidget_cuerpo.setTabText(self.tabWidget_cuerpo.indexOf(self.tab_velocidad_cu), _translate("MainWindow", "Velocidad"))
         self.tabWidget_cuerpo.setTabText(self.tabWidget_cuerpo.indexOf(self.tab_aceleracion_cu), _translate("MainWindow", "Aceleración "))
+        self.tabWidget_cuerpo.setTabText(self.tabWidget_cuerpo.indexOf(self.tab_fuerza_cu), _translate("MainWindow", "Fuerza "))
 
     def CreateVectorial(self):
         _translate = QtCore.QCoreApplication.translate
@@ -227,7 +230,7 @@ class Ui_MainWindow(object):
         self.graficarBtn_vectorial.setText(_translate("MainWindow", "Graficar"))
         
         # crea la grafica de simulacion
-        lista_plots = [self.tab_simulacion, self.tab_posicion, self.tab_velocidad, self.tab_aceleracion]
+        lista_plots = [self.tab_simulacion, self.tab_posicion, self.tab_velocidad, self.tab_aceleracion, self.tab_fuerza]
         plots = {}
         for i, plot in enumerate(lista_plots):
             plots[f'plots_vectorial_{i}'] = PlotWidget(plot, background='w')
@@ -258,6 +261,10 @@ class Ui_MainWindow(object):
         self.tab_aceleracion = QtWidgets.QWidget()
         self.tab_aceleracion.setObjectName("tab_aceleracion")
         self.tabWidget_vectorial.addTab(self.tab_aceleracion, "")
+        # crea la tab de fuerza
+        self.tab_fuerza = QtWidgets.QWidget()
+        self.tab_fuerza.setObjectName("tab_fuerza")
+        self.tabWidget_vectorial.addTab(self.tab_fuerza, "")
         # crea el frame de los botones y los labels
         self.frame_vectorial = QtWidgets.QFrame(self.tab)
         self.frame_vectorial.setGeometry(QtCore.QRect(20, 50, 221, 631))
@@ -312,6 +319,10 @@ class Ui_MainWindow(object):
         self.tab_aceleracion_na = QtWidgets.QWidget()
         self.tab_aceleracion_na.setObjectName("tab_aceleracion_na")
         self.tabWidget_naturales.addTab(self.tab_aceleracion_na, "")
+        # crea la tab de Fuerza
+        self.tab_fuerza_na = QtWidgets.QWidget()
+        self.tab_fuerza_na.setObjectName("tab_fuerza_na")
+        self.tabWidget_naturales.addTab(self.tab_fuerza_na, "")
         # crea el frame de los botones y los labels
         self.frame_naturales = QtWidgets.QFrame(self.tab_cnaturales)
         self.frame_naturales.setGeometry(QtCore.QRect(20, 50, 221, 631))
@@ -364,7 +375,6 @@ class Ui_MainWindow(object):
                 self.entries_na[f'entry_{i}'].setGeometry(QtCore.QRect(140, 50 + i*50, 60, 25))
                 self.entries_na[f'entry_{i}'].setProperty("value", v_iniciales)
                 self.entries_na[f'entry_{i}'].setObjectName(f'entry_{i}')
-        # entries_list = lambda: [i.value() for i in entries.values()] 
         # crea el boton de graficar en una tab
         self.graficarBtn_naturales = QtWidgets.QPushButton(self.tab_cnaturales)
         self.graficarBtn_naturales.setGeometry(QtCore.QRect(1700, 800, 121, 41))
@@ -378,7 +388,7 @@ class Ui_MainWindow(object):
         self.graficarBtn_naturales.setText(_translate("MainWindow", "Graficar"))
         
         # crea la grafica de simulacion
-        lista_plots_na = [self.tab_simulacion_na, self.tab_posicion_na, self.tab_velocidad_na, self.tab_aceleracion_na]
+        lista_plots_na = [self.tab_simulacion_na, self.tab_posicion_na, self.tab_velocidad_na, self.tab_aceleracion_na, self.tab_fuerza_na]
         self.plots_na = {}
         for i, plot in enumerate(lista_plots_na):
             self.plots_na[f'plots_naturales_{i}'] = PlotWidget(plot, background='w')
@@ -409,6 +419,10 @@ class Ui_MainWindow(object):
         self.tab_aceleracion_cu = QtWidgets.QWidget()
         self.tab_aceleracion_cu.setObjectName("tab_aceleracion_cu")
         self.tabWidget_cuerpo.addTab(self.tab_aceleracion_cu, "")
+        # crea la tab de fuerza
+        self.tab_fuerza_cu = QtWidgets.QWidget()
+        self.tab_fuerza_cu.setObjectName("tab_fuerza_cu")
+        self.tabWidget_cuerpo.addTab(self.tab_fuerza_cu, "")
         # crea el frame de los botones y los labels
         self.frame_cuerpo = QtWidgets.QFrame(self.tab_ccuerpo)
         self.frame_cuerpo.setGeometry(QtCore.QRect(20, 50, 221, 631))
@@ -446,7 +460,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         variables = get_elements.return_dict(CoorCuerpo)
         i = 0
-        valores_iniciales = [6, 2, 4, 5, 0, 1, 1, 2.5]
+        valores_iniciales = [6, 2, 4, 5, 0, 0, 1, 1, 2.5]
         self.labels_cu = {}
         self.entries_cu = {}
         for v_iniciales, variable in zip(valores_iniciales, variables):
@@ -468,21 +482,48 @@ class Ui_MainWindow(object):
         self.graficarBtn_cuerpo.setObjectName("graficarBtn_cuerpo")
         self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_0'].clear())
         self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_1'].clear())
-        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_2'].clear())
-        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_3'].clear())
-        self.graficarBtn_cuerpo.clicked.connect(lambda: CoorCuerpo.CoordenadasCuerpo(self.plots_cu['plots_cuerpo_0'], self.plots_cu['plots_cuerpo_1'], self.plots_cu['plots_cuerpo_2'], self.plots_cu['plots_cuerpo_3'], app, *[i.value() for i in self.entries_cu.values()]).SolucionCuerpo())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_2a'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_2b'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_2c'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_3a'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_3b'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_3c'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: CoorCuerpo.CoordenadasCuerpo(self.plots_cu['plots_cuerpo_0'], self.plots_cu['plots_cuerpo_1'], self.plots_cu['plots_cuerpo_2a'], self.plots_cu['plots_cuerpo_2b'], self.plots_cu['plots_cuerpo_2c'], self.plots_cu['plots_cuerpo_3a'], self.plots_cu['plots_cuerpo_3b'], self.plots_cu['plots_cuerpo_3c'], app, *[i.value() for i in self.entries_cu.values()]).SolucionCuerpo())
         self.graficarBtn_cuerpo.setText(_translate("MainWindow", "Graficar"))
         
         # crea la grafica de simulacion
-        lista_plots_cu = [self.tab_simulacion_cu, self.tab_posicion_cu, self.tab_velocidad_cu, self.tab_aceleracion_cu]
+        lista_plots_cu = [self.tab_simulacion_cu, self.tab_posicion_cu, self.tab_velocidad_cu, self.tab_aceleracion_cu, self.tab_fuerza_cu]
         self.plots_cu = {}
         for i, plot in enumerate(lista_plots_cu):
-            self.plots_cu[f'plots_cuerpo_{i}'] = PlotWidget(plot, background='w')
-            self.plots_cu[f'plots_cuerpo_{i}'].setGeometry(QtCore.QRect(60, 30, 1200, 700))
-            self.plots_cu[f'plots_cuerpo_{i}'].setObjectName("graphicsView_simulacion")
-            self.plots_cu[f'plots_cuerpo_{i}'].getAxis("left").setStyle(tickLength = 20)
-            self.plots_cu[f'plots_cuerpo_{i}'].getAxis("bottom").setStyle(tickLength = 20)
-            self.plots_cu[f'plots_cuerpo_{i}'].showGrid(x = True, y = True, alpha = 0.8)  
+            if plot == self.tab_aceleracion_cu or plot == self.tab_velocidad_cu:
+                #1
+                self.plots_cu[f'plots_cuerpo_{i}a'] = PlotWidget(plot, background='w')
+                self.plots_cu[f'plots_cuerpo_{i}a'].setGeometry(QtCore.QRect(59, 30, 599, 400))
+                self.plots_cu[f'plots_cuerpo_{i}a'].setObjectName("graphicsView_simulacion")
+                self.plots_cu[f'plots_cuerpo_{i}a'].getAxis("left").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}a'].getAxis("bottom").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}a'].showGrid(x = True, y = True, alpha = 0.8) 
+                #2
+                self.plots_cu[f'plots_cuerpo_{i}b'] = PlotWidget(plot, background='w')
+                self.plots_cu[f'plots_cuerpo_{i}b'].setGeometry(QtCore.QRect(661, 30, 599, 400))
+                self.plots_cu[f'plots_cuerpo_{i}b'].setObjectName("graphicsView_simulacion")
+                self.plots_cu[f'plots_cuerpo_{i}b'].getAxis("left").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}b'].getAxis("bottom").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}b'].showGrid(x = True, y = True, alpha = 0.8) 
+                #3
+                self.plots_cu[f'plots_cuerpo_{i}c'] = PlotWidget(plot, background='w')
+                self.plots_cu[f'plots_cuerpo_{i}c'].setGeometry(QtCore.QRect(360, 433   , 600, 400))
+                self.plots_cu[f'plots_cuerpo_{i}c'].setObjectName("graphicsView_simulacion")
+                self.plots_cu[f'plots_cuerpo_{i}c'].getAxis("left").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}c'].getAxis("bottom").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}c'].showGrid(x = True, y = True, alpha = 0.8) 
+            else:
+                self.plots_cu[f'plots_cuerpo_{i}'] = PlotWidget(plot, background='w')
+                self.plots_cu[f'plots_cuerpo_{i}'].setGeometry(QtCore.QRect(60, 30, 1200, 700))
+                self.plots_cu[f'plots_cuerpo_{i}'].setObjectName("graphicsView_simulacion")
+                self.plots_cu[f'plots_cuerpo_{i}'].getAxis("left").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}'].getAxis("bottom").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}'].showGrid(x = True, y = True, alpha = 0.8)  
 
 if __name__ == "__main__":
     import sys

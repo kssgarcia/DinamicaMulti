@@ -5,7 +5,7 @@ from sympy import symbols, evalf, diff, sin, cos, Matrix, lambdify
 
 
 class  CoordenadasCuerpo:
-    def __init__(self,win1, win2, win3, win4, app, I1, I2, I3, I4, phi2inicial, omega2inicial, alpha2inicial, time_simul):
+    def __init__(self,win1, win2, winVel_1, winVel_2, winVel_3, winAcel_1, winAcel_2, winAcel_3, app, I1, I2, I3, I4, phi_1, phi2inicial, omega2inicial, alpha2inicial, time_simul):
         win1.resize(1200, 700)
         win1.setWindowTitle('simulacion')
         self.app = app
@@ -21,6 +21,7 @@ class  CoordenadasCuerpo:
         self.I2 = I2
         self.I3 = I3
         self.I4 = I4
+        self.phi_1 = phi_1
         self.phi2inicial = phi2inicial
         self.omega2inicial = omega2inicial
         self.alpha2inicial = alpha2inicial
@@ -34,24 +35,60 @@ class  CoordenadasCuerpo:
         self.posiciones_1 = []
         self.posiciones_2 = []
         self.posiciones_3 = []
-        #plot velocidad
-        win3.resize(1200, 700)
-        win3.setWindowTitle('velocidad')
-        self.plot_velocidad_1 = win3.plot(pen=pg.mkPen('b', width=3))
-        self.plot_velocidad_2 = win3.plot(pen=pg.mkPen('g', width=3))
-        self.plot_velocidad_3 = win3.plot(pen=pg.mkPen('r', width=3))
-        self.velocidad_1 = []
-        self.velocidad_2 = []
-        self.velocidad_3 = []
-        #plot aceleracion
-        win4.resize(1200, 700)
-        win4.setWindowTitle('aceleracion')
-        self.plot_aceleracion_1 = win4.plot(pen=pg.mkPen('b', width=3))
-        self.plot_aceleracion_2 = win4.plot(pen=pg.mkPen('g', width=3))
-        self.plot_aceleracion_3 = win4.plot(pen=pg.mkPen('r', width=3))
-        self.aceleracion_1 = []
-        self.aceleracion_2 = []
-        self.aceleracion_3 = []
+        #plot velocidad a
+        winVel_1.resize(599, 400)
+        winVel_1.setWindowTitle('velocidad')
+        self.plot_velocidad_1a = winVel_1.plot(pen=pg.mkPen('b', width=3))
+        self.plot_velocidad_2a = winVel_1.plot(pen=pg.mkPen('g', width=3))
+        self.plot_velocidad_3a = winVel_1.plot(pen=pg.mkPen('r', width=3))
+        self.velocidad_1a = []
+        self.velocidad_2a = []
+        self.velocidad_3a = []
+        #plot velocidad b
+        winVel_2.resize(599, 400)
+        winVel_2.setWindowTitle('velocidad')
+        self.plot_velocidad_1b = winVel_2.plot(pen=pg.mkPen('b', width=3))
+        self.plot_velocidad_2b = winVel_2.plot(pen=pg.mkPen('g', width=3))
+        self.plot_velocidad_3b = winVel_2.plot(pen=pg.mkPen('r', width=3))
+        self.velocidad_1b = []
+        self.velocidad_2b = []
+        self.velocidad_3b = []
+        #plot velocidad c
+        winVel_3.resize(599, 400)
+        winVel_3.setWindowTitle('velocidad')
+        self.plot_velocidad_1c = winVel_3.plot(pen=pg.mkPen('b', width=3))
+        self.plot_velocidad_2c = winVel_3.plot(pen=pg.mkPen('g', width=3))
+        self.plot_velocidad_3c = winVel_3.plot(pen=pg.mkPen('r', width=3))
+        self.velocidad_1c = []
+        self.velocidad_2c = []
+        self.velocidad_3c = []
+        #plot aceleracion a
+        winAcel_1.resize(599, 400)
+        winAcel_1.setWindowTitle('aceleracion')
+        self.plot_aceleracion_1a = winAcel_1.plot(pen=pg.mkPen('b', width=3))
+        self.plot_aceleracion_2a = winAcel_1.plot(pen=pg.mkPen('g', width=3))
+        self.plot_aceleracion_3a = winAcel_1.plot(pen=pg.mkPen('r', width=3))
+        self.aceleracion_1a = []
+        self.aceleracion_2a = []
+        self.aceleracion_3a = []
+        #plot aceleracion b
+        winAcel_2.resize(599, 400)
+        winAcel_2.setWindowTitle('aceleracion')
+        self.plot_aceleracion_1b = winAcel_2.plot(pen=pg.mkPen('b', width=3))
+        self.plot_aceleracion_2b = winAcel_2.plot(pen=pg.mkPen('g', width=3))
+        self.plot_aceleracion_3b = winAcel_2.plot(pen=pg.mkPen('r', width=3))
+        self.aceleracion_1b = []
+        self.aceleracion_2b = []
+        self.aceleracion_3b = []
+        #plot aceleracion c
+        winAcel_3.resize(599, 400)
+        winAcel_3.setWindowTitle('aceleracion')
+        self.plot_aceleracion_1c = winAcel_3.plot(pen=pg.mkPen('b', width=3))
+        self.plot_aceleracion_2c = winAcel_3.plot(pen=pg.mkPen('g', width=3))
+        self.plot_aceleracion_3c = winAcel_3.plot(pen=pg.mkPen('r', width=3))
+        self.aceleracion_1c = []
+        self.aceleracion_2c = []
+        self.aceleracion_3c = []
 
     def SolucionCuerpo(self):
         cont = 0
@@ -85,15 +122,15 @@ class  CoordenadasCuerpo:
             cont += 1
             rest = 10
             while rest > 0.00001:
-                phiEval = np.array(phi(x[0][0], x[1][0], 0, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
-                jacobian = np.array(jaco(x[0][0], x[1][0], 0, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
+                phiEval = np.array(phi(x[0][0], x[1][0], self.phi_1, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
+                jacobian = np.array(jaco(x[0][0], x[1][0], self.phi_1, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
                 xf = x - np.dot(np.linalg.solve(jacobian, np.identity(jacobian.shape[0])), phiEval)
                 x = xf
                 rest = np.linalg.norm(phiEval)
 
             v_1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -self.alpha2inicial*i-self.omega2inicial]
             vi = np.dot(-np.linalg.solve(jacobian, np.identity(jacobian.shape[0])), np.reshape(v_1, (len(x), -1)))
-            jacobina_point = np.array(jaco_point(x[0][0], x[1][0], x[2][0], x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
+            jacobina_point = np.array(jaco_point(x[0][0], x[1][0], self.phi_1, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
     
             a_1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -self.alpha2inicial]
             ai = np.dot(np.linalg.solve(jacobian, np.identity(jacobian.shape[0])),(np.dot(-jacobina_point,vi)-np.reshape(a_1, (len(x), -1))))
@@ -111,27 +148,56 @@ class  CoordenadasCuerpo:
             br4_y = float(self.I1*sin(xf[2][0]))
             self.barra3.setData([br2_x, br4_x], [br2_y, br4_y])
             self.barra4.setData([br4_x, 0], [br4_y, 0])
-            # # graficar la posicion
-            # self.posiciones_1.append(xf[0][0])
-            # self.posiciones_2.append(xf[1][0])
-            # self.posiciones_3.append(xf[2][0])
-            # self.plot_posicion_1.setData(ti, self.posiciones_1)
-            # self.plot_posicion_2.setData(ti, self.posiciones_2)
-            # self.plot_posicion_3.setData(ti, self.posiciones_3)
-            # # # graficar la velocidad
-            # self.velocidad_1.append(float(vi[0][0]))
-            # self.velocidad_2.append(float(vi[1][0]))
-            # self.velocidad_3.append(float(vi[2][0]))
-            # self.plot_velocidad_1.setData(ti, self.velocidad_1)
-            # self.plot_velocidad_2.setData(ti, self.velocidad_2)
-            # self.plot_velocidad_3.setData(ti, self.velocidad_3)
-            # # # graficar la aceleracion
-            # self.aceleracion_1.append(float(ai[0][0]))
-            # self.aceleracion_2.append(float(ai[1][0]))
-            # self.aceleracion_3.append(float(ai[2][0]))
-            # self.plot_aceleracion_1.setData(ti, self.aceleracion_1)
-            # self.plot_aceleracion_2.setData(ti, self.aceleracion_2)
-            # self.plot_aceleracion_3.setData(ti, self.aceleracion_3)
+            # graficar la posicion
+            self.posiciones_1.append(xf[5][0])
+            self.posiciones_2.append(xf[8][0])
+            self.posiciones_3.append(xf[11][0])
+            self.plot_posicion_1.setData(ti, self.posiciones_1)
+            self.plot_posicion_2.setData(ti, self.posiciones_2)
+            self.plot_posicion_3.setData(ti, self.posiciones_3)
+            # graficar la velocidad a
+            self.velocidad_1a.append(float(vi[3][0]))
+            self.velocidad_2a.append(float(vi[4][0]))
+            self.velocidad_3a.append(float(vi[5][0]))
+            self.plot_velocidad_1a.setData(ti, self.velocidad_1a)
+            self.plot_velocidad_2a.setData(ti, self.velocidad_2a)
+            self.plot_velocidad_3a.setData(ti, self.velocidad_3a)
+            # graficar la velocidad b
+            self.velocidad_1b.append(float(vi[6][0]))
+            self.velocidad_2b.append(float(vi[7][0]))
+            self.velocidad_3b.append(float(vi[8][0]))
+            self.plot_velocidad_1b.setData(ti, self.velocidad_1b)
+            self.plot_velocidad_2b.setData(ti, self.velocidad_2b)
+            self.plot_velocidad_3b.setData(ti, self.velocidad_3b)
+            # graficar la velocidad c
+            self.velocidad_1c.append(float(vi[9][0]))
+            self.velocidad_2c.append(float(vi[10][0]))
+            self.velocidad_3c.append(float(vi[11][0]))
+            self.plot_velocidad_1c.setData(ti, self.velocidad_1c)
+            self.plot_velocidad_2c.setData(ti, self.velocidad_2c)
+            self.plot_velocidad_3c.setData(ti, self.velocidad_3c)
+            # graficar la aceleracion a
+            self.aceleracion_1a.append(float(ai[3][0]))
+            self.aceleracion_2a.append(float(ai[4][0]))
+            self.aceleracion_3a.append(float(ai[5][0]))
+            self.plot_aceleracion_1a.setData(ti, self.aceleracion_1a)
+            self.plot_aceleracion_2a.setData(ti, self.aceleracion_2a)
+            self.plot_aceleracion_3a.setData(ti, self.aceleracion_3a)
+            # graficar la aceleracion b
+            self.aceleracion_1b.append(float(ai[6][0]))
+            self.aceleracion_2b.append(float(ai[7][0]))
+            self.aceleracion_3b.append(float(ai[8][0]))
+            self.plot_aceleracion_1b.setData(ti, self.aceleracion_1b)
+            self.plot_aceleracion_2b.setData(ti, self.aceleracion_2b)
+            self.plot_aceleracion_3b.setData(ti, self.aceleracion_3b)
+            # graficar la aceleracion c
+            self.aceleracion_1c.append(float(ai[9][0]))
+            self.aceleracion_2c.append(float(ai[10][0]))
+            self.aceleracion_3c.append(float(ai[11][0]))
+            self.plot_aceleracion_1c.setData(ti, self.aceleracion_1c)
+            self.plot_aceleracion_2c.setData(ti, self.aceleracion_2c)
+            self.plot_aceleracion_3c.setData(ti, self.aceleracion_3c)
+
             self.app.processEvents()
 
         
