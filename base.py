@@ -488,14 +488,25 @@ class Ui_MainWindow(object):
         self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_3a'].clear())
         self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_3b'].clear())
         self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_3c'].clear())
-        self.graficarBtn_cuerpo.clicked.connect(lambda: CoorCuerpo.CoordenadasCuerpo(self.plots_cu['plots_cuerpo_0'], self.plots_cu['plots_cuerpo_1'], self.plots_cu['plots_cuerpo_2a'], self.plots_cu['plots_cuerpo_2b'], self.plots_cu['plots_cuerpo_2c'], self.plots_cu['plots_cuerpo_3a'], self.plots_cu['plots_cuerpo_3b'], self.plots_cu['plots_cuerpo_3c'], app, *[i.value() for i in self.entries_cu.values()]).SolucionCuerpo())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_4a'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_4b'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_4c'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: CoorCuerpo.CoordenadasCuerpo([self.plots_cu['plots_cuerpo_0'], self.plots_cu['plots_cuerpo_1'], self.plots_cu['plots_cuerpo_2a'], self.plots_cu['plots_cuerpo_2b'], self.plots_cu['plots_cuerpo_2c'], self.plots_cu['plots_cuerpo_3a'], self.plots_cu['plots_cuerpo_3b'], self.plots_cu['plots_cuerpo_3c'], self.plots_cu['plots_cuerpo_4a'], self.plots_cu['plots_cuerpo_4b'], self.plots_cu['plots_cuerpo_4c']], app, *[i.value() for i in self.entries_cu.values()]).SolucionCuerpo())
         self.graficarBtn_cuerpo.setText(_translate("MainWindow", "Graficar"))
         
         # crea la grafica de simulacion
         lista_plots_cu = [self.tab_simulacion_cu, self.tab_posicion_cu, self.tab_velocidad_cu, self.tab_aceleracion_cu, self.tab_fuerza_cu]
         self.plots_cu = {}
         for i, plot in enumerate(lista_plots_cu):
-            if plot == self.tab_aceleracion_cu or plot == self.tab_velocidad_cu:
+            if plot == self.tab_simulacion_cu or plot == self.tab_posicion_cu:
+                self.plots_cu[f'plots_cuerpo_{i}'] = PlotWidget(plot, background='w')
+                self.plots_cu[f'plots_cuerpo_{i}'].setGeometry(QtCore.QRect(60, 30, 1200, 700))
+                self.plots_cu[f'plots_cuerpo_{i}'].setObjectName("graphicsView_simulacion")
+                self.plots_cu[f'plots_cuerpo_{i}'].getAxis("left").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}'].getAxis("bottom").setStyle(tickLength = 20)
+                self.plots_cu[f'plots_cuerpo_{i}'].showGrid(x = True, y = True, alpha = 0.8)  
+
+            else:
                 #1
                 self.plots_cu[f'plots_cuerpo_{i}a'] = PlotWidget(plot, background='w')
                 self.plots_cu[f'plots_cuerpo_{i}a'].setGeometry(QtCore.QRect(59, 30, 599, 400))
@@ -517,13 +528,6 @@ class Ui_MainWindow(object):
                 self.plots_cu[f'plots_cuerpo_{i}c'].getAxis("left").setStyle(tickLength = 20)
                 self.plots_cu[f'plots_cuerpo_{i}c'].getAxis("bottom").setStyle(tickLength = 20)
                 self.plots_cu[f'plots_cuerpo_{i}c'].showGrid(x = True, y = True, alpha = 0.8) 
-            else:
-                self.plots_cu[f'plots_cuerpo_{i}'] = PlotWidget(plot, background='w')
-                self.plots_cu[f'plots_cuerpo_{i}'].setGeometry(QtCore.QRect(60, 30, 1200, 700))
-                self.plots_cu[f'plots_cuerpo_{i}'].setObjectName("graphicsView_simulacion")
-                self.plots_cu[f'plots_cuerpo_{i}'].getAxis("left").setStyle(tickLength = 20)
-                self.plots_cu[f'plots_cuerpo_{i}'].getAxis("bottom").setStyle(tickLength = 20)
-                self.plots_cu[f'plots_cuerpo_{i}'].showGrid(x = True, y = True, alpha = 0.8)  
 
 if __name__ == "__main__":
     import sys
