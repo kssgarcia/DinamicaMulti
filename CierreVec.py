@@ -5,7 +5,7 @@ from sympy import symbols, evalf, diff, sin, cos, Matrix, lambdify
 
 class  CierreVectorial:
 
-    def __init__(self,win1, win2, win3, win4, app, r1, r2, r3, r4, phi_1, phi2inicial, omega2inicial, alpha2inicial, time_simul):
+    def __init__(self,win1, win2, win3, win4, win5, app, r1, r2, r3, r4, phi_1, phi2inicial, omega2inicial, alpha2inicial, time_simul):
         win1.resize(1200, 700)
         win1.setWindowTitle('simulacion')
         self.app = app
@@ -26,6 +26,15 @@ class  CierreVectorial:
         self.omega2inicial = omega2inicial
         self.alpha2inicial = alpha2inicial
         self.time_simul = time_simul
+        self.m2 = 0.4
+        self.m3 = 0.8
+        self.m4 = 1
+        self.Iner2 = (1/12)*self.m2*pow(self.r2, 2)
+        self.Iner3 = (1/12)*self.m3*pow(self.r3, 2)
+        self.Iner4 = (1/12)*self.m4*pow(self.r4, 2)
+        self.inerciales = np.array([self.Iner2, self.Iner3, self.Iner4])
+        self.matriz_inercial = np.multiply(np.identity(3),self.inerciales)
+        self.fuerza = np.array([[self.m2], [self.m3], [self.m4]])
         #plot posicion
         win2.resize(1200, 700)
         win2.setWindowTitle('posicion')
@@ -53,6 +62,15 @@ class  CierreVectorial:
         self.aceleracion_1 = []
         self.aceleracion_2 = []
         self.aceleracion_3 = []
+        #plot fuerza
+        win5.resize(1200, 700)
+        win5.setWindowTitle('fuerza')
+        self.plot_fuerza_1 = win5.plot(pen=pg.mkPen('b', width=3))
+        self.plot_fuerza_2 = win5.plot(pen=pg.mkPen('g', width=3))
+        self.plot_fuerza_3 = win5.plot(pen=pg.mkPen('r', width=3))
+        self.fuerza_1 = []
+        self.fuerza_2 = []
+        self.fuerza_3 = []
 
 
     def SolucionVectorial(self):
@@ -96,7 +114,8 @@ class  CierreVectorial:
             a_1 = [0, 0, -self.alpha2inicial]
             ai = np.dot(np.linalg.inv(jacobianSys),(np.dot(-jacobina_point,vi)-np.reshape(a_1, (len(x), -1))))
             ti.append(float(i))
-
+            lambi = np.dot(np.transpose(np.linalg.solve(jacobianSys, np.identity(jacobianSys.shape[0]))), (np.dot(self.matriz_inercial, ai) - self.fuerza))
+            print(lambi)
             br1_x = float(self.r2*cos(xf[0][0]))
             br1_y = float(self.r2*sin(xf[0][0]))
             self.barra1.setData([0, br1_x], [0, br1_y])
@@ -128,6 +147,13 @@ class  CierreVectorial:
             self.plot_aceleracion_1.setData(ti, self.aceleracion_1)
             self.plot_aceleracion_2.setData(ti, self.aceleracion_2)
             self.plot_aceleracion_3.setData(ti, self.aceleracion_3)
+            # graficar la fuerza
+            self.fuerza_1.append(float(lambi[0][0]))
+            self.fuerza_2.append(float(lambi[1][0]))
+            self.fuerza_3.append(float(lambi[2][0]))
+            self.plot_fuerza_1.setData(ti, self.fuerza_1)
+            self.plot_fuerza_2.setData(ti, self.fuerza_2)
+            self.plot_fuerza_3.setData(ti, self.fuerza_3)
         
             self.app.processEvents()
 

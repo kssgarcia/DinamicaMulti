@@ -226,7 +226,7 @@ class Ui_MainWindow(object):
         self.graficarBtn_vectorial.clicked.connect(lambda: plots['plots_vectorial_1'].clear())
         self.graficarBtn_vectorial.clicked.connect(lambda: plots['plots_vectorial_2'].clear())
         self.graficarBtn_vectorial.clicked.connect(lambda: plots['plots_vectorial_3'].clear())
-        self.graficarBtn_vectorial.clicked.connect(lambda: CierreVec.CierreVectorial(plots[f'plots_vectorial_0'], plots['plots_vectorial_1'], plots['plots_vectorial_2'], plots['plots_vectorial_3'], app, *[i.value() for i in entries.values()] ).SolucionVectorial())
+        self.graficarBtn_vectorial.clicked.connect(lambda: CierreVec.CierreVectorial(plots[f'plots_vectorial_0'], plots['plots_vectorial_1'], plots['plots_vectorial_2'], plots['plots_vectorial_3'], plots['plots_vectorial_4'], app, *[i.value() for i in entries.values()] ).SolucionVectorial())
         self.graficarBtn_vectorial.setText(_translate("MainWindow", "Graficar"))
         
         # crea la grafica de simulacion
