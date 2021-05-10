@@ -7,16 +7,16 @@ class  CierreVectorial:
 
     def SolucionVectorial(self, I1, I2, I3, I4, phi2inicial, omega2inicial, alpha2inicial, time_simul):
 
-        app = QtGui.QApplication([])
-        win = pg.GraphicsLayoutWidget()
-        win.setWindowTitle("Number of Peers in the Team")
-        win.resize(800, 600)
-        p1 = win.addPlot(title="plot1", row=0, col=0)
+        # app = QtGui.QApplication([])
+        # win = pg.GraphicsLayoutWidget()
+        # win.setWindowTitle("Number of Peers in the Team")
+        # win.resize(800, 600)
+        # p1 = win.addPlot(title="plot1", row=0, col=0)
 
-        self.barra1 = p1.plot(pen='y')
-        self.barra2 = p1.plot(pen='r')
-        self.barra3 = p1.plot(pen='y')
-        self.barra4 = p1.plot(pen='r')
+        # self.barra1 = p1.plot(pen='y')
+        # self.barra2 = p1.plot(pen='r')
+        # self.barra3 = p1.plot(pen='y')
+        # self.barra4 = p1.plot(pen='r')
 
         self.I1 = I1
         self.I2 = I2
@@ -77,9 +77,9 @@ class  CierreVectorial:
             ai = np.dot(np.linalg.solve(jacobianEval, np.identity(jacobianEval.shape[0])),(-jacobina_point*vi-np.reshape(a_1, (len(x), -1))))
             A.append(ai)
 
-            br1_x = float(self.I1*cos(xf[3][0]))
-            br1_y = float(self.I1*sin(xf[3][0]))
-            self.barra1.setData([0, br1_x], [0, br1_y])
+            # br1_x = float(self.I1*cos(xf[3][0]))
+            # br1_y = float(self.I1*sin(xf[3][0]))
+            # self.barra1.setData([0, br1_x], [0, br1_y])
             # br2_x = float(br1_x+self.I3*cos(xf[6][0]))
             # br2_y = float(br1_y+self.I3*sin(xf[6][0]))
             # self.barra2.setData([br1_x, br2_x], [br1_y, br2_y])
@@ -89,7 +89,7 @@ class  CierreVectorial:
             # self.barra4.setData([br3_x, 0], [br3_y, 0])
             # if i >= time_simul:
             #     break
-            app.processEvents()
+            # app.processEvents()
         print(A)
 
 
@@ -127,4 +127,4 @@ if __name__ == '__main__':
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         object_1 =  CierreVectorial()
         object_1.SolucionVectorial(6, 2, 4, 5, 0, 1, 1, .1)
-        QtGui.QApplication.instance().exec_()
+        # QtGui.QApplication.instance().exec_()
