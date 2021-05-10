@@ -3,13 +3,13 @@ import numpy as np
 import pyqtgraph as pg
 from sympy import symbols, evalf, diff, sin, cos, Matrix, lambdify
 import time
-import numba
+import cProfile
 
 class  CierreVectorial:
 
 
     def SolucionVectorial(self, I1, I2, I3, I4, phi2inicial, omega2inicial, alpha2inicial, time_simul):
-        app = QtGui.QApplication([])
+        self.app = QtGui.QApplication([])
         win = pg.GraphicsWindow(title="My plotting examples")
         win.resize(1000,600)
         win.setWindowTitle('Cierre Vectorial')
@@ -28,7 +28,9 @@ class  CierreVectorial:
         self.omega2inicial = omega2inicial
         self.alpha2inicial = alpha2inicial
         self.time_simul = time_simul
+        self.loop()
 
+    def loop(self):
         cont = 0
         x=[3, 0, 0, 1, 0, 0, 2.4, 1.9, 1.3, 4.4, 1.9, 2.2]
         step = 0.01
@@ -57,7 +59,8 @@ class  CierreVectorial:
         phi = lambdify([x1, y1, phi1, x2, y2, phi2, x3, y3, phi3, x4, y4, phi4, t], phi)
         jaco = lambdify([x1, y1, phi1, x2, y2, phi2, x3, y3, phi3, x4, y4, phi4, t], jaco)
         jaco_point = lambdify([x1, y1, phi1, x2, y2, phi2, x3, y3, phi3, x4, y4, phi4, t], jaco_point)
-
+        pr = cProfile.Profile()
+        pr.enable()
         for i in np.arange(0, self.time_simul, step):
             float(i)
             cont += 1
@@ -84,7 +87,9 @@ class  CierreVectorial:
             br3_y = float(self.I1*sin(xf[9][0]))
             self.barra3.setData([br2_x, br3_x], [br2_y, br3_y])
             self.barra4.setData([br3_x, 0], [br3_y, 0])
-            app.processEvents()
+            self.app.processEvents()
+        pr.disable()
+        pr.print_stats()
 
 
     def derivate(self, functionOver, derivationVar, container=None, initIter=0):
