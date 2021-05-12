@@ -2,6 +2,7 @@ from pyqtgraph.Qt import QtGui, QtCore, QtWidgets
 import numpy as np
 import pyqtgraph as pg
 from sympy import symbols, evalf, diff, sin, cos, Matrix, lambdify
+import time
 
 class  CierreVectorial:
 
@@ -106,16 +107,14 @@ class  CierreVectorial:
                 rest = np.linalg.norm(phiSys)
 
             v_1 = [0, 0, -self.alpha2inicial*i-self.omega2inicial]
-            vi = np.dot(-np.linalg.inv(jacobianSys),
-                        np.reshape(v_1, (len(x), -1)))
+            vi = np.dot(-np.linalg.inv(jacobianSys), np.reshape(v_1, (len(x), -1)))
 
             jacobina_point = np.array(jaco_point(x[0][0], x[1][0], x[2][0], vi[0][0], vi[1][0], vi[2][0], i))
-
             a_1 = [0, 0, -self.alpha2inicial]
             ai = np.dot(np.linalg.inv(jacobianSys),(np.dot(-jacobina_point,vi)-np.reshape(a_1, (len(x), -1))))
             ti.append(float(i))
             lambi = np.dot(np.transpose(np.linalg.solve(jacobianSys, np.identity(jacobianSys.shape[0]))), (np.dot(self.matriz_inercial, ai) - self.fuerza))
-            print(lambi)
+
             br1_x = float(self.r2*cos(xf[0][0]))
             br1_y = float(self.r2*sin(xf[0][0]))
             self.barra1.setData([0, br1_x], [0, br1_y])
@@ -157,7 +156,6 @@ class  CierreVectorial:
         
             self.app.processEvents()
 
-        
     def derivate(self, functionOver, derivationVar, container=None, initIter=0):
         if container == None:
             container = []

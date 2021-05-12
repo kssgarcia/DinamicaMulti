@@ -202,7 +202,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         variables = get_elements.return_dict(CierreVec)
         i = 0
-        valores_iniciales = [6 , 2, 4, 5, 0.1745, 0, 1, 1, 2]
+        valores_iniciales = [6 , 2, 4, 5, 0.1745, 0, 1, 1, 1.5]
         labels = {}
         entries = {}
         for v_iniciales, variable in zip(valores_iniciales, variables):
@@ -356,7 +356,6 @@ class Ui_MainWindow(object):
         self.frame_naturales.setObjectName("frame_naturales")
         self.tabWidget.addTab(self.tab_cnaturales, "")
 
-
     def CreateNaturales(self):
         _translate = QtCore.QCoreApplication.translate
         variables = get_elements.return_dict(Naturales)
@@ -384,7 +383,8 @@ class Ui_MainWindow(object):
         self.graficarBtn_naturales.clicked.connect(lambda: self.plots_na['plots_naturales_1'].clear())
         self.graficarBtn_naturales.clicked.connect(lambda: self.plots_na['plots_naturales_2'].clear())
         self.graficarBtn_naturales.clicked.connect(lambda: self.plots_na['plots_naturales_3'].clear())
-        self.graficarBtn_naturales.clicked.connect(lambda: Naturales.CoordenadasNaturales(self.plots_na['plots_naturales_0'], self.plots_na['plots_naturales_1'], self.plots_na['plots_naturales_2'], self.plots_na['plots_naturales_3'], app, *[i.value() for i in self.entries_na.values()]).SolucionNaturales())
+        self.graficarBtn_naturales.clicked.connect(lambda: self.plots_na['plots_naturales_4'].clear())
+        self.graficarBtn_naturales.clicked.connect(lambda: Naturales.CoordenadasNaturales(self.plots_na['plots_naturales_0'], self.plots_na['plots_naturales_1'], self.plots_na['plots_naturales_2'], self.plots_na['plots_naturales_3'], self.plots_na['plots_naturales_4'], app, *[i.value() for i in self.entries_na.values()]).SolucionNaturales())
         self.graficarBtn_naturales.setText(_translate("MainWindow", "Graficar"))
         
         # crea la grafica de simulacion
@@ -460,7 +460,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         variables = get_elements.return_dict(CoorCuerpo)
         i = 0
-        valores_iniciales = [6, 2, 4, 5, 0, 0, 1, 1, 2.5]
+        valores_iniciales = [6, 2, 4, 5, 0, 0, 1, 1, 1.5]
         self.labels_cu = {}
         self.entries_cu = {}
         for v_iniciales, variable in zip(valores_iniciales, variables):
