@@ -7,7 +7,7 @@ import time
 class  CoordenadasNaturales:
     def __init__(self,win1, win2, win3, win4, win5, app, I1, I2, I3, I4, phi_1, phi2inicial, omega2inicial, alpha2inicial, time_simul):
         win1.resize(1200, 700)
-        win1.setWindowTitle('simulacion')
+        win1.setTitle('simulacion')
         self.app = app
         self.barra1 = win1.plot(pen=pg.mkPen('b', width=3), symbolPen ='g',brush=pg.mkBrush(30, 255, 35, 255))
         self.barra2 = win1.plot(pen=pg.mkPen('g', width=3), symbolPen ='g')
@@ -44,11 +44,10 @@ class  CoordenadasNaturales:
 
         self.M_x1 = np.concatenate(((self.m1/self.I1)*self.M1, (self.m2/self.I2)*self.M2), axis=1)
         self.M_x2 = np.concatenate(((self.m3/self.I3)*self.M3, (self.m4/self.I4)*self.M4), axis=1)
-        self.M_completa = np.concatenate((self.M_x1, self.M_x2), axis=0)
-        print(self.M_completa)                                    
+        self.M_completa = np.concatenate((self.M_x1, self.M_x2), axis=0)                                    
         #plot posicion
         win2.resize(1200, 700)
-        win2.setWindowTitle('posicion')
+        win2.setTitle('posicion | azul=X2 verde=Y2 rojo=X3 negro=Y3')
         self.plot_posicion_1 = win2.plot(pen=pg.mkPen('b', width=3))
         self.plot_posicion_2 = win2.plot(pen=pg.mkPen('g', width=3))
         self.plot_posicion_3 = win2.plot(pen=pg.mkPen('r', width=3))
@@ -59,7 +58,7 @@ class  CoordenadasNaturales:
         self.posiciones_4 = []
         #plot velocidad
         win3.resize(1200, 700)
-        win3.setWindowTitle('velocidad')
+        win3.setTitle('velocidad | azul=X2 verde=Y2 rojo=X3 negro=Y3')
         self.plot_velocidad_1 = win3.plot(pen=pg.mkPen('b', width=3))
         self.plot_velocidad_2 = win3.plot(pen=pg.mkPen('g', width=3))
         self.plot_velocidad_3 = win3.plot(pen=pg.mkPen('r', width=3))
@@ -70,7 +69,7 @@ class  CoordenadasNaturales:
         self.velocidad_4 = []
         #plot aceleracion
         win4.resize(1200, 700)
-        win4.setWindowTitle('aceleracion')
+        win4.setTitle('aceleracion | azul=X2 verde=Y2 rojo=X3 negro=Y3')
         self.plot_aceleracion_1 = win4.plot(pen=pg.mkPen('b', width=3))
         self.plot_aceleracion_2 = win4.plot(pen=pg.mkPen('g', width=3))
         self.plot_aceleracion_3 = win4.plot(pen=pg.mkPen('r', width=3))
@@ -81,7 +80,7 @@ class  CoordenadasNaturales:
         self.aceleracion_4 = []
         #plot fuerza
         win5.resize(1200, 700)
-        win5.setWindowTitle('fuerza')
+        win5.setTitle('fuerza | azul=X2 verde=Y2 rojo=X3 negro=Y3')
         self.plot_fuerza_1 = win5.plot(pen=pg.mkPen('b', width=3))
         self.plot_fuerza_2 = win5.plot(pen=pg.mkPen('g', width=3))
         self.plot_fuerza_3 = win5.plot(pen=pg.mkPen('r', width=3))

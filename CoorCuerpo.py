@@ -7,7 +7,7 @@ from sympy import symbols, evalf, diff, sin, cos, Matrix, lambdify
 class  CoordenadasCuerpo:
     def __init__(self,win, app, I1, I2, I3, I4, phi_1, phi2inicial, omega2inicial, alpha2inicial, time_simul):
         win[0].resize(1200, 700)
-        win[0].setWindowTitle('simulacion')
+        win[0].setTitle('simulacion')
         self.app = app
         self.barra1 = win[0].plot(pen=pg.mkPen('b', width=3), symbolPen ='g',brush=pg.mkBrush(30, 255, 35, 255))
         self.barra2 = win[0].plot(pen=pg.mkPen('g', width=3), symbolPen ='g')
@@ -40,7 +40,7 @@ class  CoordenadasCuerpo:
         self.fuerza = np.array([[0], [-self.m1*9.81], [0], [0], [-self.m2*9.81], [0], [0], [-self.m3*9.81], [0], [0], [-self.m4*9.81], [0]])
         #plot posicion
         win[1].resize(1200, 700)
-        win[1].setWindowTitle('posicion')
+        win[1].setTitle('posicion')
         self.plot_posicion_1 = win[1].plot(pen=pg.mkPen('b', width=3))
         self.plot_posicion_2 = win[1].plot(pen=pg.mkPen('g', width=3))
         self.plot_posicion_3 = win[1].plot(pen=pg.mkPen('r', width=3))
@@ -49,7 +49,7 @@ class  CoordenadasCuerpo:
         self.posiciones_3 = []
         #plot velocidad a
         win[2].resize(599, 400)
-        win[2].setWindowTitle('velocidad')
+        win[2].setTitle('velocidad barra 2 | azul=X verde=Y rojo=Phi')
         self.plot_velocidad_1a = win[2].plot(pen=pg.mkPen('b', width=3))
         self.plot_velocidad_2a = win[2].plot(pen=pg.mkPen('g', width=3))
         self.plot_velocidad_3a = win[2].plot(pen=pg.mkPen('r', width=3))
@@ -58,7 +58,7 @@ class  CoordenadasCuerpo:
         self.velocidad_3a = []
         #plot velocidad b
         win[3].resize(599, 400)
-        win[3].setWindowTitle('velocidad')
+        win[3].setTitle('velocidad barra 3 | azul=X verde=Y rojo=Phi')
         self.plot_velocidad_1b = win[3].plot(pen=pg.mkPen('b', width=3))
         self.plot_velocidad_2b = win[3].plot(pen=pg.mkPen('g', width=3))
         self.plot_velocidad_3b = win[3].plot(pen=pg.mkPen('r', width=3))
@@ -67,7 +67,7 @@ class  CoordenadasCuerpo:
         self.velocidad_3b = []
         #plot velocidad c
         win[4].resize(599, 400)
-        win[4].setWindowTitle('velocidad')
+        win[4].setTitle('velocidad barra 4 | azul=X verde=Y rojo=Phi')
         self.plot_velocidad_1c = win[4].plot(pen=pg.mkPen('b', width=3))
         self.plot_velocidad_2c = win[4].plot(pen=pg.mkPen('g', width=3))
         self.plot_velocidad_3c = win[4].plot(pen=pg.mkPen('r', width=3))
@@ -76,7 +76,7 @@ class  CoordenadasCuerpo:
         self.velocidad_3c = []
         #plot aceleracion a
         win[5].resize(599, 400)
-        win[5].setWindowTitle('aceleracion')
+        win[5].setTitle('aceleracion barra 2 | azul=X verde=Y rojo=Phi')
         self.plot_aceleracion_1a = win[5].plot(pen=pg.mkPen('b', width=3))
         self.plot_aceleracion_2a = win[5].plot(pen=pg.mkPen('g', width=3))
         self.plot_aceleracion_3a = win[5].plot(pen=pg.mkPen('r', width=3))
@@ -85,7 +85,7 @@ class  CoordenadasCuerpo:
         self.aceleracion_3a = []
         #plot aceleracion b
         win[6].resize(599, 400)
-        win[6].setWindowTitle('aceleracion')
+        win[6].setTitle('aceleracion barra 3 | azul=X verde=Y rojo=Phi')
         self.plot_aceleracion_1b = win[6].plot(pen=pg.mkPen('b', width=3))
         self.plot_aceleracion_2b = win[6].plot(pen=pg.mkPen('g', width=3))
         self.plot_aceleracion_3b = win[6].plot(pen=pg.mkPen('r', width=3))
@@ -94,7 +94,7 @@ class  CoordenadasCuerpo:
         self.aceleracion_3b = []
         #plot aceleracion c
         win[7].resize(599, 400)
-        win[7].setWindowTitle('aceleracion')
+        win[7].setTitle('aceleracion barra 4 | azul=X verde=Y rojo=Phi')
         self.plot_aceleracion_1c = win[7].plot(pen=pg.mkPen('b', width=3))
         self.plot_aceleracion_2c = win[7].plot(pen=pg.mkPen('g', width=3))
         self.plot_aceleracion_3c = win[7].plot(pen=pg.mkPen('r', width=3))
@@ -103,7 +103,7 @@ class  CoordenadasCuerpo:
         self.aceleracion_3c = []
         #plot fuerza a
         win[8].resize(599, 400)
-        win[8].setWindowTitle('fuerza')
+        win[8].setTitle('fuerza barra 2 | azul=X verde=Y rojo=Phi')
         self.plot_fuerza_1a = win[8].plot(pen=pg.mkPen('b', width=3))
         self.plot_fuerza_2a = win[8].plot(pen=pg.mkPen('g', width=3))
         self.plot_fuerza_3a = win[8].plot(pen=pg.mkPen('r', width=3))
@@ -112,7 +112,7 @@ class  CoordenadasCuerpo:
         self.fuerza_3a = []
         #plot fuerza b
         win[9].resize(599, 400)
-        win[9].setWindowTitle('fuerza')
+        win[9].setTitle('fuerza barra 3 | azul=X verde=Y rojo=Phi')
         self.plot_fuerza_1b = win[9].plot(pen=pg.mkPen('b', width=3))
         self.plot_fuerza_2b = win[9].plot(pen=pg.mkPen('g', width=3))
         self.plot_fuerza_3b = win[9].plot(pen=pg.mkPen('r', width=3))
@@ -121,7 +121,7 @@ class  CoordenadasCuerpo:
         self.fuerza_3b = []
         #plot fuerza c
         win[10].resize(599, 400)
-        win[10].setWindowTitle('fuerza')
+        win[10].setTitle('fuerza barra 4 | azul=X verde=Y rojo=Phi')
         self.plot_fuerza_1c = win[10].plot(pen=pg.mkPen('b', width=3))
         self.plot_fuerza_2c = win[10].plot(pen=pg.mkPen('g', width=3))
         self.plot_fuerza_3c = win[10].plot(pen=pg.mkPen('r', width=3))
@@ -257,7 +257,6 @@ class  CoordenadasCuerpo:
             self.plot_fuerza_3c.setData(ti, self.fuerza_3c)
 
             self.app.processEvents()
-
         
     def derivate(self, functionOver, derivationVar, container=None, initIter=0):
         if container == None:
