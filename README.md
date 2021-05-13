@@ -1,0 +1,1 @@
+Correr el codigo main y tener en cuenta la carpeta requirements.txt en esta se encuentra la lista de librerias que se utilizaron en el projecto.
