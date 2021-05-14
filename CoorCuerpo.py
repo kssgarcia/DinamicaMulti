@@ -103,31 +103,31 @@ class  CoordenadasCuerpo:
         self.aceleracion_3c = []
         #plot fuerza a
         win[8].resize(599, 400)
-        win[8].setTitle('fuerza barra 2 | azul=X verde=Y rojo=Phi')
+        win[8].setTitle('fuerza barra 2 | azul=X verde=Y')
         self.plot_fuerza_1a = win[8].plot(pen=pg.mkPen('b', width=3))
         self.plot_fuerza_2a = win[8].plot(pen=pg.mkPen('g', width=3))
-        self.plot_fuerza_3a = win[8].plot(pen=pg.mkPen('r', width=3))
         self.fuerza_1a = []
         self.fuerza_2a = []
-        self.fuerza_3a = []
         #plot fuerza b
         win[9].resize(599, 400)
-        win[9].setTitle('fuerza barra 3 | azul=X verde=Y rojo=Phi')
+        win[9].setTitle('fuerza barra 3 | azul=X verde=Y')
         self.plot_fuerza_1b = win[9].plot(pen=pg.mkPen('b', width=3))
         self.plot_fuerza_2b = win[9].plot(pen=pg.mkPen('g', width=3))
-        self.plot_fuerza_3b = win[9].plot(pen=pg.mkPen('r', width=3))
         self.fuerza_1b = []
         self.fuerza_2b = []
-        self.fuerza_3b = []
         #plot fuerza c
         win[10].resize(599, 400)
-        win[10].setTitle('fuerza barra 4 | azul=X verde=Y rojo=Phi')
+        win[10].setTitle('fuerza barra 4 | azul=X verde=Y')
         self.plot_fuerza_1c = win[10].plot(pen=pg.mkPen('b', width=3))
         self.plot_fuerza_2c = win[10].plot(pen=pg.mkPen('g', width=3))
-        self.plot_fuerza_3c = win[10].plot(pen=pg.mkPen('r', width=3))
         self.fuerza_1c = []
         self.fuerza_2c = []
-        self.fuerza_3c = []
+        #plot driving torque
+        win[11].resize(599, 400)
+        win[11].setTitle('Torque')
+        self.plot_fuerza_1d = win[11].plot(pen=pg.mkPen('r', width=3))
+        self.fuerza_1d = []
+
 
     def SolucionCuerpo(self):
         cont = 0
@@ -237,24 +237,21 @@ class  CoordenadasCuerpo:
             # graficar la fuerza a
             self.fuerza_1a.append(float(lambi[3][0]))
             self.fuerza_2a.append(float(lambi[4][0]))
-            self.fuerza_3a.append(float(lambi[5][0]))
             self.plot_fuerza_1a.setData(ti, self.fuerza_1a)
             self.plot_fuerza_2a.setData(ti, self.fuerza_2a)
-            self.plot_fuerza_3a.setData(ti, self.fuerza_3a)
             # graficar la fuerza b
             self.fuerza_1b.append(float(lambi[6][0]))
             self.fuerza_2b.append(float(lambi[7][0]))
-            self.fuerza_3b.append(float(lambi[8][0]))
             self.plot_fuerza_1b.setData(ti, self.fuerza_1b)
             self.plot_fuerza_2b.setData(ti, self.fuerza_2b)
-            self.plot_fuerza_3b.setData(ti, self.fuerza_3b)
             # graficar la fuerza c
             self.fuerza_1c.append(float(lambi[9][0]))
             self.fuerza_2c.append(float(lambi[10][0]))
-            self.fuerza_3c.append(float(lambi[11][0]))
             self.plot_fuerza_1c.setData(ti, self.fuerza_1c)
             self.plot_fuerza_2c.setData(ti, self.fuerza_2c)
-            self.plot_fuerza_3c.setData(ti, self.fuerza_3c)
+            # graficar el torque
+            self.fuerza_1d.append(float(lambi[11][0]))
+            self.plot_fuerza_1d.setData(ti, self.fuerza_1d)
 
             self.app.processEvents()
         

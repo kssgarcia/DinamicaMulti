@@ -491,7 +491,8 @@ class Ui_MainWindow(object):
         self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_4a'].clear())
         self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_4b'].clear())
         self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_4c'].clear())
-        self.graficarBtn_cuerpo.clicked.connect(lambda: CoorCuerpo.CoordenadasCuerpo([self.plots_cu['plots_cuerpo_0'], self.plots_cu['plots_cuerpo_1'], self.plots_cu['plots_cuerpo_2a'], self.plots_cu['plots_cuerpo_2b'], self.plots_cu['plots_cuerpo_2c'], self.plots_cu['plots_cuerpo_3a'], self.plots_cu['plots_cuerpo_3b'], self.plots_cu['plots_cuerpo_3c'], self.plots_cu['plots_cuerpo_4a'], self.plots_cu['plots_cuerpo_4b'], self.plots_cu['plots_cuerpo_4c']], app, *[i.value() for i in self.entries_cu.values()]).SolucionCuerpo())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: self.plots_cu['plots_cuerpo_4d'].clear())
+        self.graficarBtn_cuerpo.clicked.connect(lambda: CoorCuerpo.CoordenadasCuerpo([self.plots_cu['plots_cuerpo_0'], self.plots_cu['plots_cuerpo_1'], self.plots_cu['plots_cuerpo_2a'], self.plots_cu['plots_cuerpo_2b'], self.plots_cu['plots_cuerpo_2c'], self.plots_cu['plots_cuerpo_3a'], self.plots_cu['plots_cuerpo_3b'], self.plots_cu['plots_cuerpo_3c'], self.plots_cu['plots_cuerpo_4a'], self.plots_cu['plots_cuerpo_4b'], self.plots_cu['plots_cuerpo_4c'], self.plots_cu['plots_cuerpo_4d']], app, *[i.value() for i in self.entries_cu.values()]).SolucionCuerpo())
         self.graficarBtn_cuerpo.setText(_translate("MainWindow", "Graficar"))
         
         # crea la grafica de simulacion
@@ -523,11 +524,19 @@ class Ui_MainWindow(object):
                 self.plots_cu[f'plots_cuerpo_{i}b'].showGrid(x = True, y = True, alpha = 0.8) 
                 #3
                 self.plots_cu[f'plots_cuerpo_{i}c'] = PlotWidget(plot, background='w')
-                self.plots_cu[f'plots_cuerpo_{i}c'].setGeometry(QtCore.QRect(360, 433   , 600, 400))
+                self.plots_cu[f'plots_cuerpo_{i}c'].setGeometry(QtCore.QRect(59, 433, 599, 400))
                 self.plots_cu[f'plots_cuerpo_{i}c'].setObjectName("graphicsView_simulacion")
                 self.plots_cu[f'plots_cuerpo_{i}c'].getAxis("left").setStyle(tickLength = 20)
                 self.plots_cu[f'plots_cuerpo_{i}c'].getAxis("bottom").setStyle(tickLength = 20)
                 self.plots_cu[f'plots_cuerpo_{i}c'].showGrid(x = True, y = True, alpha = 0.8) 
+                if plot == self.tab_fuerza_cu:
+                    #4
+                    self.plots_cu[f'plots_cuerpo_{i}d'] = PlotWidget(plot, background='w')
+                    self.plots_cu[f'plots_cuerpo_{i}d'].setGeometry(QtCore.QRect(661, 433, 599, 400))
+                    self.plots_cu[f'plots_cuerpo_{i}d'].setObjectName("graphicsView_simulacion")
+                    self.plots_cu[f'plots_cuerpo_{i}d'].getAxis("left").setStyle(tickLength = 20)
+                    self.plots_cu[f'plots_cuerpo_{i}d'].getAxis("bottom").setStyle(tickLength = 20)
+                    self.plots_cu[f'plots_cuerpo_{i}d'].showGrid(x = True, y = True, alpha = 0.8) 
 
 if __name__ == "__main__":
     import sys
