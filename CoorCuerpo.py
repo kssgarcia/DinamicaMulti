@@ -144,9 +144,9 @@ class  CoordenadasCuerpo:
             [y3+sin(phi3)*(self.I3/2) - y4-sin(phi4)*(self.I4/2)],
             [x1+cos(phi1)*(self.I1/2) - x4+cos(phi4)*(self.I4/2)],
             [y1+sin(phi1)*(self.I1/2) - y4+sin(phi4)*(self.I4/2)],
-            [ x1 - (self.I1/2) ],
-            [ y1 ],
-            [ phi1 ],
+            [ x1 - (self.I1/2)*cos(self.phi_1) ],
+            [ y1 - (self.I1/2)*sin(self.phi_1) ],
+            [ phi1 - self.phi_1],
             [phi2-self.phi2inicial-self.omega2inicial*t-0.5*self.alpha2inicial*(pow(t,2))]]
         jaco = np.array(self.derivate(phi, q, None, 0))
         jaco_point = np.array(self.derivateMatrix(jaco, q, None, 0))
@@ -161,15 +161,15 @@ class  CoordenadasCuerpo:
             cont += 1
             rest = 10
             while rest > 0.00001:
-                phiEval = np.array(phi(x[0][0], x[1][0], self.phi_1, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
-                jacobian = np.array(jaco(x[0][0], x[1][0], self.phi_1, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
+                phiEval = np.array(phi(x[0][0], x[1][0], x[2][0], x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
+                jacobian = np.array(jaco(x[0][0], x[1][0], x[2][0], x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
                 xf = x - np.dot(np.linalg.solve(jacobian, np.identity(jacobian.shape[0])), phiEval)
                 x = xf
                 rest = np.linalg.norm(phiEval)
 
             v_1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -self.alpha2inicial*i-self.omega2inicial]
             vi = np.dot(-np.linalg.solve(jacobian, np.identity(jacobian.shape[0])), np.reshape(v_1, (len(x), -1)))
-            jacobina_point = np.array(jaco_point(x[0][0], x[1][0], self.phi_1, x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
+            jacobina_point = np.array(jaco_point(x[0][0], x[1][0], x[2][0], x[3][0], x[4][0], x[5][0], x[6][0], x[7][0], x[8][0], x[9][0], x[10][0], x[11][0], i))
     
             a_1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -self.alpha2inicial]
             ai = np.dot(np.linalg.solve(jacobian, np.identity(jacobian.shape[0])),(np.dot(-jacobina_point,vi)-np.reshape(a_1, (len(x), -1))))
