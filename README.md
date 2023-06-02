@@ -1,1 +1,5 @@
-Correr el codigo main y tener en cuenta la carpeta requirements.txt en esta se encuentra la lista de librerias que se utilizaron en el projecto.
+# This is a pyQt app about multibody dynamics
+
+Install the requirements from `requirements.txt`.
+
+Run the `main.py` 
