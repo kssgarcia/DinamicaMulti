@@ -2,4 +2,4 @@
 
 Install the requirements from `requirements.txt`.
 
-Run the `main.py` 
+Run `main.py` 
